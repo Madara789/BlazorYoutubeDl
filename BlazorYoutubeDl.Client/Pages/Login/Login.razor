@@ -1,0 +1,29 @@
+﻿@page  "/login"
+
+<EditForm Model="@model" OnValidSubmit="@OnValidSubmit">
+    <div>
+        <br /><br /><br /><br /><br />
+    </div>
+    <div>
+        <h3 style="font-weight:bold; color:purple">Goose Login</h3>
+    </div>
+    <div>
+        <br />
+    </div>
+    <div class="col-12 row">
+        <input class="form-control col-12" @bind="model.UsernameOrEmail" placeholder="Username" />
+    </div>
+    <br />
+    <div class="col-12 row">
+        <input type="password" class="form-control col-12" @bind="model.Password" placeholder="password" />
+    </div>
+    <br />
+    <div class="col-12 row">
+        <span class="col-12"></span>
+        <input type="submit" class="form-control col-6 btn btn-primary" value="Login" />
+        <input type="button" @onclick="ToSignUp" class="form-control col-6 btn btn-primary" value="Sign Up" />
+    </div>
+</EditForm>
+
+<!--<input type="text" value="test" @oninput="(ChangeEventArgs e) => test = e.Value.ToString()" />
+<p>@test</p>-->

@@ -1,0 +1,16 @@
+﻿@page "/persons"
+@attribute [Authorize]
+
+<button @onclick="APIButtonClicked">Test API</button>
+<br />
+<p>@APIResult</p>
+<br />
+
+<button @onclick="GRPCButtonClicked">Test gRPC</button>
+<br />
+<p>@GRPCResult</p>
+<br />
+
+<button @onclick="GRPCGetRandomPersonButtonClicked">Get Random Person</button>
+<br />
+<p>@PersonResult</p>
