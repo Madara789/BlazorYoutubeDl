@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BlazorYoutubeDl.API.Context;
 using BlazorYoutubeDl.API.Helpers;
 using BlazorYoutubeDl.API.Services;
 using BlazorYoutubeDl.Domain.ServiceInterfaces;
@@ -45,14 +44,7 @@ namespace BlazorYoutubeDl.API
 
             // configure jwt authentication
             var appSettings = appSettingsSection.Get<AppSettings>();
-            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
-
-            var connectionString = "server=51.38.127.205;database=youtube-dl;user=root;password=QqFrlpKO1Gmb2nMy0VQ3;sslmode=None;connection timeout=300;default command timeout=300";
-
-            services.AddDbContext<YoutubeDlContext>(opt =>
-            {
-                opt.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
-            });
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);            
 
             services.AddAuthentication(opt =>
             {
@@ -142,7 +134,7 @@ namespace BlazorYoutubeDl.API
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGrpcService<PeopleService>().EnableGrpcWeb().RequireAuthorization();
+                endpoints.MapGrpcService<PeopleService>().EnableGrpcWeb();
                 endpoints.MapGrpcService<AuthService>().EnableGrpcWeb();
                 endpoints.MapControllers().RequireAuthorization();
             });

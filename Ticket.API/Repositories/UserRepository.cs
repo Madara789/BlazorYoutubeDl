@@ -1,5 +1,4 @@
-﻿using BlazorYoutubeDl.API.Context;
-using BlazorYoutubeDl.Domain.Exeptions;
+﻿using BlazorYoutubeDl.Domain.Exeptions;
 using BlazorYoutubeDl.Domain.Models.Identity;
 using BlazorYoutubeDl.Domain.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
@@ -12,18 +11,13 @@ namespace BlazorYoutubeDl.Api.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        private readonly YoutubeDlContext _context;
 
-        public UserRepository(YoutubeDlContext context)
+        public UserRepository()
         {
-            _context = context;
         }
 
         public async Task CreateUserAsync(User user)
         {
-            _context.Users.Add(user);
-
-            await _context.SaveChangesAsync();
         }
 
         public Task DeleteUserAsync(int id)
@@ -33,23 +27,14 @@ namespace BlazorYoutubeDl.Api.Repositories
 
         public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
-            var userList = await _context.Users
-                .Include(v => v.Videos)
-                .ToListAsync();
+            var userList = new List<User>();
 
             return userList;
         }
 
         public async Task<User> GetUserByIdAsync(int id)
         {
-            var user = await _context.Users
-                .Include(x => x.Videos)
-                .FirstAsync(x => x.Id == id);
-
-            if (user is null)
-                throw new HttpStatusException(StaticCast<int>(HttpStatusCode.NotFound), "Ein User mit dieser Id wurde nicht gefunden");
-
-            return user;
+            return new User();
         }
 
         public Task<User> UpdateUserAsnyc(User user)

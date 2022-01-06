@@ -24,7 +24,7 @@ namespace BlazorYoutubeDl.Services
         {
             var callContext = context;
 
-            if (callContext.CallOptions.Headers == null)
+            if (callContext.Equals(CallContext.Default))
                 callContext = await _callContextService.CreateCallContextAuthHeader();
 
             return await _peopleService.GetAll(request, callContext);

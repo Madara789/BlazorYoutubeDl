@@ -33,6 +33,9 @@ namespace BlazorYoutubeDl.API.Services
         {
             //var test = context.ServerCallContext.GetHttpContext().User.GetUserID();
             //var user = await _userService.GetUserAsync(test);
+
+            throw new RpcException(new(StatusCode.NotFound, "Some Text"), "Some Text");
+
             var reply = new PeopleReply();
             reply.Persons.AddRange(_peopleList);
             return await new ValueTask<PeopleReply>(reply);

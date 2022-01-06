@@ -1,6 +1,7 @@
 ﻿using BlazorYoutubeDl.Domain.GrpcMessages.Person;
 using BlazorYoutubeDl.Domain.ServiceInterfaces;
 using BlazorYoutubeDl.Services;
+using Grpc.Core;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using System;
@@ -40,16 +41,28 @@ namespace BlazorYoutubeDl.Client.Pages
 
         private async Task GRPCButtonClicked()
         {
-            GRPCResult = "Loading...";
-            await InvokeAsync(StateHasChanged);
-            var startTime = DateTime.Now;
-            var list = await PersonService.GetAll(new GetAllPeopleRequest());
-            if (list != null)
+            try
             {
-                _peopleList = list.Persons.ToList();
-                var elapsed = DateTime.Now.Subtract(startTime);
-                GRPCResult = $"{_peopleList.Count} records returned via gRPC in {elapsed.TotalMilliseconds} ms.";
+                GRPCResult = "Loading...";
                 await InvokeAsync(StateHasChanged);
+                var startTime = DateTime.Now;
+                var list = await PersonService.GetAll(new GetAllPeopleRequest());
+                if (list != null)
+                {
+                    _peopleList = list.Persons.ToList();
+                    var elapsed = DateTime.Now.Subtract(startTime);
+                    GRPCResult = $"{_peopleList.Count} records returned via gRPC in {elapsed.TotalMilliseconds} ms.";
+                    await InvokeAsync(StateHasChanged);
+                }
+            }
+            catch (RpcException ex)
+            {
+                _ = ex;
+            }
+            catch (Exception ex)
+            {
+                _ = ex;
+                throw;
             }
         }
 
